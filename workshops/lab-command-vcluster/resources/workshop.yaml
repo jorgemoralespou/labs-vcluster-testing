@@ -24,7 +24,7 @@ spec:
         url: $(image_repository)/labs-vcluster-testing/lab-command-vcluster-files:$(workshop_version)
   session:
     namespaces:
-      budget: large
+      budget: custom
       security:
         policy: baseline
     applications:
@@ -33,11 +33,10 @@ spec:
         layout: split
       console:
         enabled: true
-        vendor: octant
       editor:
         enabled: true
       vcluster:
-        enabled: false
+        enabled: true
       files:
         enabled: true
     dashboards:
