@@ -1,0 +1,49 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: "lab-command-nested-vcluster"
+spec:
+  title: "Test of creating nested vCluster"
+  description: "Test of creating a virtual cluster inside Educates builtin vCluster using the vCluster CLI"
+  publish:
+    image: $(image_repository)/labs-vcluster-testing/lab-command-nested-vcluster-files:$(workshop_version)
+    files:
+    - directory:
+        path: .
+      includePaths:
+      - /workshop/**
+      - /resources/**
+      - /exercises/**
+      - README.md
+      excludePaths:
+      - /workshop/.hugo_build.lock
+      - /workshop/resources/**
+  workshop:
+    files:
+    - image:
+        url:  $(image_repository)/labs-vcluster-testing/lab-command-nested-vcluster-files:$(workshop_version)
+    packages:
+    - name: vcluster
+      files:
+      - path: .
+        image:
+          url: ghcr.io/educates/educates-extension-packages/vcluster:v0.30.3
+  session:
+    namespaces:
+      budget: large 
+      security:
+        policy: baseline
+        token:
+          enabled: false
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      console:
+        enabled: false
+      editor:
+        enabled: true
+      vcluster:
+        enabled: true
+      files:
+        enabled: true

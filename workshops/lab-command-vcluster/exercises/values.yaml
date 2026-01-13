@@ -1,0 +1,26 @@
+controlPlane:
+  ingress:
+    enabled: false
+  advanced:
+    serviceAccount:
+      enabled: true
+      name: ${SESSION_NAME}
+sync:
+  fromHost:
+    events:
+      enabled: false
+  toHost:
+    ingresses:
+      enabled: true
+rbac:
+  role:
+    enabled: false
+  clusterRole:
+    enabled: false
+  enableVolumeSnapshotRules:
+    enabled: false
+policies:
+  resourceQuota:
+    enabled: false
+  limitRange:
+    enabled: false

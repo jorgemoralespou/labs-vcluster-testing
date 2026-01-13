@@ -14,37 +14,27 @@ spec:
       defaults:
         reserved: 0
   workshops:
-  - name: lab-command-vcluster
-    expires: 40m
-    overtime: 10m
-    deadline: 60m
-    orphaned: 5m
   - name: lab-builtin-vcluster
     expires: 40m
     overtime: 10m
     deadline: 60m
     orphaned: 5m
-  - name: lab-setup-vcluster
+  - name: lab-builtin-vcluster-all-features
     expires: 40m
     overtime: 10m
     deadline: 60m
     orphaned: 5m
-  - name: lab-admin-vcluster
+  - name: lab-command-vcluster
     expires: 40m
     overtime: 10m
     deadline: 60m
     orphaned: 5m
-  - name: lab-contour-vcluster
+  - name: lab-command-nested-vcluster
     expires: 40m
     overtime: 10m
     deadline: 60m
     orphaned: 5m
-  - name: lab-shared-vcluster
-    expires: 40m
-    overtime: 10m
-    deadline: 60m
-    orphaned: 5m
-  - name: lab-remote-cluster
+  - name: lab-add-resources-to-vcluster
     expires: 40m
     overtime: 10m
     deadline: 60m

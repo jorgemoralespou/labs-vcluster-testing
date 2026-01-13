@@ -1,9 +1,0 @@
-#@ load("@ytt:data", "data")
-
-#@ for name in data.values.namespaces:
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: #@ name
-#@ end
