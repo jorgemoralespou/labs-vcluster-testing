@@ -1,0 +1,64 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: "lab-builtin-vcluster-all-features"
+spec:
+  title: "Test of builtin virtual cluster with all features"
+  description: "Test of using builtin support for creating a virtual cluster with all features."
+  publish:
+    image: $(image_repository)/labs-vcluster-testing/lab-builtin-vcluster-all-features-files:$(workshop_version)
+    files:
+    - directory:
+        path: .
+      includePaths:
+      - /workshop/**
+      - /resources/**
+      - /README.md
+      excludePaths:
+      - /workshop/.hugo_build.lock
+      - /workshop/resources/**
+  workshop:
+    files:
+    - image:
+        url: $(image_repository)/labs-vcluster-testing/lab-builtin-vcluster-all-features-files:$(workshop_version)
+  session:
+    namespaces:
+      budget: x-large
+      security:
+        token:
+          enabled: false
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      console:
+        enabled: true
+      editor:
+        enabled: true
+      vcluster:
+        enabled: true
+        ingress:
+          enabled: true
+          subdomains:
+          - default
+        resources:
+          syncer:
+            memory: 2Gi
+        objects:
+        - apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: session-details
+            namespace: default
+          data:
+            SESSION_NAMESPACE: "$(session_namespace)"
+            INGRESS_DOMAIN: "$(ingress_domain)"
+        services:
+          fromVirtual:
+          - from: default/nginx
+            to: my-internal-nginx-svc
+          fromHost:
+          - from: kyverno/kyverno-svc-metrics
+            to:   default/kyverno-svc-metrics
+      files:
+        enabled: true

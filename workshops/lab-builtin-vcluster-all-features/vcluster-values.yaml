@@ -1,0 +1,12 @@
+controlPlane:
+  proxy:
+    extraSANs: 
+      - my-vc-api.educates.test
+      - vc-api.educates.test
+sync:
+  fromHost:
+    ingressClasses:
+      enabled: true
+  toHost:
+    ingresses:
+      enabled: true

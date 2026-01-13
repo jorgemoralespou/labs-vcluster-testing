@@ -9,32 +9,14 @@ running:
 vcluster version
 ```
 
-We need a config file for our environment like the following
+Since we're running in Educates builtin vCluster, let's verify we can list the nodes and namespaces:
 
+```execute-1
+kubectl get nodes
 ```
-controlPlane:
-ingress:
-    enabled: false
-advanced:
-    serviceAccount:
-    enabled: true
-    name: {{< param session_name >}} 
-sync:
-fromHost:
-    events:
-    enabled: false
-rbac:
-role:
-    enabled: false
-clusterRole:
-    enabled: false
-enableVolumeSnapshotRules:
-    enabled: false
-policies:
-resourceQuota:
-    enabled: false
-limitRange:
-    enabled: false
+
+```execute-1
+kubectl get ns
 ```
 
 As a developer, you have limited access to a namespace, but we want to test features that will require
@@ -42,11 +24,8 @@ cluster admin or dedicated access to a full cluster. We will use vCluster for th
 Let's go ahead and create a `development` vcluster inside your user namespace:
 
 ```execute-1
-vcluster create {{< param session_name >}} --create-namespace=false --connect=false -f values.yaml
+vcluster create development --connect=false
 ```
-
-**NOTE** This virtual cluster will be created in our user namespace `{{< param session_name >}}`, and since
-this namespace already exists, we should instruct vcluster CLI to not create the namespace.
 
 Initially, we just want to create the vcluster but not set it as our active kubernetes cluster, so we
 instruct the `vcluster` CLI to not connect to it. We will do it later.
@@ -61,7 +40,7 @@ If we execute `kubectl` commands, we will be using our host cluster. If we want 
 need to `connect` to it, which will set our active kubeconfig to our vcluster.
 
 ```execute-1
-vcluster connect {{< param session_name >}}
+vcluster connect development
 ```
 
 We can now verify that we have access to our new `development` cluster.
@@ -81,6 +60,9 @@ We need to wait until the workload is ready to be used.
 ```execute-2
 kubectl rollout status deployment/hello -n default
 ```
+
+
+<!-- TODO: Work out how to expose this externally
 
 We can verify it's details:
 
@@ -103,4 +85,4 @@ Once it's ready, we can go ahead and access it.
 
 ```execute-2
 curl http://hello-{{< param session_name >}}.{{< param ingress_domain >}}
-```
+``` -->

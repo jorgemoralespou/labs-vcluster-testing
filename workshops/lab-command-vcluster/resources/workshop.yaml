@@ -3,8 +3,8 @@ kind: Workshop
 metadata:
   name: "lab-command-vcluster"
 spec:
-  title: "Test of using the vcluster command"
-  description: "Test of creating a virtual cluster using the vcluster CLI."
+  title: "Test of using the vCluster CLI"
+  description: "Test of creating a virtual cluster using the vcluster CLI"
   publish:
     image: $(image_repository)/labs-vcluster-testing/lab-command-vcluster-files:$(workshop_version)
     files:
@@ -21,10 +21,16 @@ spec:
   workshop:
     files:
     - image:
-        url: $(image_repository)/labs-vcluster-testing/lab-command-vcluster-files:$(workshop_version)
+        url:  $(image_repository)/labs-vcluster-testing/lab-command-vcluster-files:$(workshop_version)
+    packages:
+    - name: vcluster
+      files:
+      - path: .
+        image:
+          url: ghcr.io/educates/educates-extension-packages/vcluster:v0.30.3
   session:
     namespaces:
-      budget: custom
+      budget: large 
       security:
         policy: baseline
     applications:
@@ -32,13 +38,34 @@ spec:
         enabled: true
         layout: split
       console:
-        enabled: true
+        enabled: false
       editor:
         enabled: true
       vcluster:
-        enabled: true
+        enabled: false
       files:
         enabled: true
-    dashboards:
-    - name: Cluster
-      url: terminal:vcluster
+    # We need cluster rolebindings to allow the vcluster CLI to create virtual clusters
+    objects:
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: $(session_name)-vc
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: edit
+      subjects:
+      - kind: ServiceAccount
+        namespace: $(session_namespace)
+        name: $(service_account)
+    - apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: $(service_account)
+        namespace: $(session_namespace)
+        labels:
+          app.kubernetes.io/managed-by: Helm
+        annotations:
+          meta.helm.sh/release-name: $(session_name)
+          meta.helm.sh/release-namespace: $(session_namespace)

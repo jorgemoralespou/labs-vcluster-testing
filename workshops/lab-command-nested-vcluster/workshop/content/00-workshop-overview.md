@@ -4,6 +4,4 @@ title: Workshop Overview
 
 This workshop demonstrates creating a vCluster using the vCluster CLI which 
 is added to the workshop via an `Educates extension package`. This virtual
-cluster will be created inside a regular Educates Session Namespace, and 
-we need to add additional ClusterRoleBindings and create a specific ServiceAccount
-for that matter.
+cluster will be created inside an Educates builtin vCluster.
