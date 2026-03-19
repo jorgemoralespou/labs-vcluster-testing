@@ -28,3 +28,5 @@ jobs:
           include: |
             lab-builtin-vcluster
             lab-command-*
+          exclude: |
+            lab-*
