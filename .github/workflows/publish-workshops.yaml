@@ -24,6 +24,7 @@ jobs:
         uses: educates/educates-github-actions/publish-multiple-workshops@main
         with:
           token: ${{secrets.GITHUB_TOKEN}}
+          trainingportal-resource-file: resources/tp.yaml
           include: |
             lab-builtin-vcluster
             lab-command-*
